@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(CLIENT)
+  createdAt     DateTime  @default(now())
+
+  coach      Coach?
+  rendezVous RendezVous[]
+  accounts   Account[]
+  sessions   Session[]
+}
+
+enum Role {
+  CLIENT
+  COACH
+  ADMIN
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Coach {
+  id               String          @id @default(cuid())
+  userId           String          @unique
+  bio              String?
+  specialite       String?
+  zoomUserId       String?
+  zoomAccessToken  String?
+  zoomRefreshToken String?
+  tokenExpiresAt   DateTime?
+  createdAt        DateTime        @default(now())
+
+  user           User            @relation(fields: [userId], references: [id])
+  disponibilites Disponibilite[]
+  rendezVous     RendezVous[]
+}
+
+model Disponibilite {
+  id           String     @id @default(cuid())
+  coachId      String
+  jour         DateTime   @db.Date
+  heureDebut   String
+  heureFin     String
+  dureeMinutes Int
+  recurrent    Boolean    @default(false)
+  statut       Statut     @default(LIBRE)
+  createdAt    DateTime   @default(now())
+
+  coach      Coach       @relation(fields: [coachId], references: [id])
+  rendezVous RendezVous?
+}
+
+enum Statut {
+  LIBRE
+  RESERVE
+  ANNULE
+}
+
+model RendezVous {
+  id              String     @id @default(cuid())
+  clientId        String
+  coachId         String
+  disponibiliteId String     @unique
+  zoomMeetingId   String?
+  zoomJoinUrl     String?
+  zoomStartUrl    String?
+  zoomPassword    String?
+  statut          StatutRdv  @default(CONFIRME)
+  notesClient     String?
+  rappelEnvoye    Boolean    @default(false)
+  confirmeAt      DateTime?
+  createdAt       DateTime   @default(now())
+
+  client        User          @relation(fields: [clientId], references: [id])
+  coach         Coach         @relation(fields: [coachId], references: [id])
+  disponibilite Disponibilite @relation(fields: [disponibiliteId], references: [id])
+  emailsLog     EmailLog[]
+}
+
+enum StatutRdv {
+  CONFIRME
+  ANNULE
+  TERMINE
+}
+
+model EmailLog {
+  id           String    @id @default(cuid())
+  rendezVousId String
+  type         EmailType
+  destinataire String
+  sujet        String
+  envoyeAt     DateTime  @default(now())
+  succes       Boolean   @default(true)
+  erreur       String?
+
+  rendezVous RendezVous @relation(fields: [rendezVousId], references: [id])
+}
+
+enum EmailType {
+  CONFIRMATION
+  RAPPEL
+  ANNULATION
+}
