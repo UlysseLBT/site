@@ -2,6 +2,26 @@
 import { useState } from "react";
 import Link from "next/link";
 
+// Convert "Lundi" + "10h00" → next occurrence ISO string (Europe/Paris local time → UTC)
+function nextOccurrenceISO(dayName: string, timeStr: string): string {
+  const dayMap: Record<string, number> = { Lundi: 1, Mercredi: 3, Vendredi: 5, Samedi: 6 };
+  const targetDay = dayMap[dayName];
+  const [hStr, mStr] = timeStr.replace("h", ":").split(":");
+  const hours = parseInt(hStr, 10);
+  const minutes = parseInt(mStr || "0", 10);
+
+  const now = new Date();
+  const candidate = new Date();
+  candidate.setHours(hours, minutes, 0, 0);
+
+  const currentDay = now.getDay(); // 0=Sun
+  let daysUntil = (targetDay - currentDay + 7) % 7;
+  // If same weekday but time already passed, push to next week
+  if (daysUntil === 0 && candidate <= now) daysUntil = 7;
+  candidate.setDate(candidate.getDate() + daysUntil);
+  return candidate.toISOString();
+}
+
 const COLORS = {
   cream: "#F0EBCC",
   creamDark: "#E8E0B8",
@@ -138,8 +158,10 @@ export default function AudioPage() {
   const [playing, setPlaying] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<{ day: string; slot: string } | null>(null);
-  const [bookingStep, setBookingStep] = useState<"idle" | "form" | "confirm">("idle");
+  const [bookingStep, setBookingStep] = useState<"idle" | "form" | "loading" | "confirm" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", note: "" });
+  const [joinUrl, setJoinUrl] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const filtered = activeCategory === "Tout"
     ? audios
@@ -150,9 +172,42 @@ export default function AudioPage() {
     setBookingStep("form");
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setBookingStep("confirm");
+    if (!selectedSlot) return;
+
+    setBookingStep("loading");
+    setApiError(null);
+
+    try {
+      const startISO = nextOccurrenceISO(selectedSlot.day, selectedSlot.slot);
+
+      const res = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          host: "hostA",
+          startISO,
+          duration: 60,
+          name: form.name,
+          email: form.email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setApiError(data.error ?? "Erreur serveur");
+        setBookingStep("error");
+        return;
+      }
+
+      setJoinUrl(data.join_url ?? null);
+      setBookingStep("confirm");
+    } catch {
+      setApiError("Impossible de contacter le serveur. Veuillez réessayer.");
+      setBookingStep("error");
+    }
   }
 
   return (
@@ -731,15 +786,17 @@ export default function AudioPage() {
 
       {/* ── BOOKING MODAL ── */}
       {bookingStep !== "idle" && (
-        <div className="modal-overlay" onClick={() => { setBookingStep("idle"); }}>
+        <div className="modal-overlay" onClick={() => { if (bookingStep !== "loading") setBookingStep("idle"); }}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setBookingStep("idle")}>✕</button>
+            {bookingStep !== "loading" && (
+              <button className="modal-close" onClick={() => setBookingStep("idle")}>✕</button>
+            )}
 
             {bookingStep === "form" && (
               <>
                 <h3>Votre réservation</h3>
                 <p className="selected-info">
-                  📅 {selectedSlot?.day} à {selectedSlot?.slot} — Séance Zoom
+                  📅 {selectedSlot?.day} à {selectedSlot?.slot} — Séance Zoom (60 min)
                 </p>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
@@ -773,6 +830,15 @@ export default function AudioPage() {
               </>
             )}
 
+            {bookingStep === "loading" && (
+              <div className="confirm-box">
+                <span className="confirm-icon" style={{ animation: "spin 1.5s linear infinite", display: "inline-block" }}>🌿</span>
+                <h3>Création de votre séance…</h3>
+                <p>Nous préparons votre lien Zoom, merci de patienter.</p>
+                <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+              </div>
+            )}
+
             {bookingStep === "confirm" && (
               <div className="confirm-box">
                 <span className="confirm-icon">🌿</span>
@@ -782,12 +848,32 @@ export default function AudioPage() {
                   <strong>{selectedSlot?.day} à {selectedSlot?.slot}</strong>.
                 </p>
                 <p>
-                  Un e-mail de confirmation avec le lien Zoom a été envoyé à{" "}
-                  <strong>{form.email}</strong>.
+                  Un e-mail de confirmation a été envoyé à <strong>{form.email}</strong>.
                 </p>
-                <a href="#" className="confirm-zoom">
-                  📹 Rejoindre la séance Zoom
-                </a>
+                {joinUrl ? (
+                  <a href={joinUrl} target="_blank" rel="noopener noreferrer" className="confirm-zoom">
+                    📹 Rejoindre la séance Zoom
+                  </a>
+                ) : (
+                  <p style={{ marginTop: 16, fontSize: 13, color: COLORS.greenMid }}>
+                    Le lien Zoom vous sera envoyé par e-mail.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {bookingStep === "error" && (
+              <div className="confirm-box">
+                <span className="confirm-icon">⚠️</span>
+                <h3>Une erreur est survenue</h3>
+                <p style={{ color: COLORS.orange }}>{apiError}</p>
+                <button
+                  onClick={() => setBookingStep("form")}
+                  className="btn-submit"
+                  style={{ marginTop: 24 }}
+                >
+                  Réessayer
+                </button>
               </div>
             )}
           </div>
