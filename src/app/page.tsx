@@ -16,13 +16,13 @@ const COLORS = {
 const slides = [
   {
     title: "Retrouvez la paix intérieure",
-    subtitle: "Des séances guidées pour apaiser votre esprit et votre corps",
+    subtitle: "Séances guidées pour apaiser votre esprit et votre corps",
     cta: "Réserver une séance",
     href: "/rdv",
   },
   {
     title: "Méditation & Bien-être",
-    subtitle: "Découvrez différentes pratiques adaptées à votre rythme de vie",
+    subtitle: "Différentes pratiques adaptées à votre rythme de vie",
     cta: "Explorer les méditations",
     href: "/meditation",
   },
@@ -35,10 +35,10 @@ const slides = [
 ];
 
 const meditationTypes = [
-  { icon: "🌿", title: "Pleine conscience", desc: "Ancrez-vous dans le moment présent grâce à des exercices de respiration et d'observation." },
-  { icon: "🌙", title: "Méditation du soir", desc: "Préparez votre esprit au repos avec des visualisations douces et apaisantes." },
-  { icon: "☀️", title: "Éveil matinal", desc: "Démarrez chaque journée avec clarté, énergie et intention positive." },
-  { icon: "💧", title: "Gestion du stress", desc: "Techniques éprouvées pour relâcher les tensions et retrouver l'équilibre." },
+  { icon: "🌿", title: "Pleine conscience", desc: "Ancrez-vous dans le présent par la respiration et l'observation." },
+  { icon: "🌙", title: "Méditation du soir", desc: "Visualisations douces pour préparer votre esprit au repos." },
+  { icon: "☀️", title: "Éveil matinal", desc: "Démarrez chaque journée avec clarté et intention positive." },
+  { icon: "💧", title: "Gestion du stress", desc: "Techniques pour relâcher les tensions et retrouver l'équilibre." },
 ];
 
 export default function Page() {
@@ -62,6 +62,7 @@ export default function Page() {
         body {
           background: ${COLORS.cream};
           font-family: 'Jost', sans-serif;
+          font-size: 16px;
           color: ${COLORS.greenDark};
           overflow-x: hidden;
         }
@@ -106,7 +107,7 @@ export default function Page() {
         }
 
         .nav-links a {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 400;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -129,27 +130,6 @@ export default function Page() {
 
         .nav-links a:hover { color: ${COLORS.orange}; }
         .nav-links a:hover::after { transform: scaleX(1); }
-
-        .btn-login {
-          padding: 9px 22px;
-          border: 1.5px solid ${COLORS.greenPrimary};
-          border-radius: 100px;
-          font-family: 'Jost', sans-serif;
-          font-size: 12px;
-          font-weight: 500;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: ${COLORS.greenPrimary};
-          background: transparent;
-          cursor: pointer;
-          text-decoration: none;
-          transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-login:hover {
-          background: ${COLORS.greenPrimary};
-          color: ${COLORS.cream};
-        }
 
         .hamburger {
           display: none;
@@ -187,7 +167,7 @@ export default function Page() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 500;
           letter-spacing: 0.2em;
           text-transform: uppercase;
@@ -205,7 +185,7 @@ export default function Page() {
 
         .hero-title {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(42px, 5vw, 64px);
+          font-size: clamp(44px, 5vw, 66px);
           font-weight: 300;
           line-height: 1.15;
           color: ${COLORS.greenDark};
@@ -219,7 +199,7 @@ export default function Page() {
         }
 
         .hero-subtitle {
-          font-size: 15px;
+          font-size: 17px;
           font-weight: 300;
           line-height: 1.7;
           color: ${COLORS.greenPrimary};
@@ -235,12 +215,12 @@ export default function Page() {
         }
 
         .btn-primary {
-          padding: 14px 32px;
+          padding: 15px 34px;
           background: ${COLORS.greenPrimary};
           border: none;
           border-radius: 100px;
           font-family: 'Jost', sans-serif;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 500;
           letter-spacing: 0.06em;
           color: ${COLORS.cream};
@@ -256,7 +236,7 @@ export default function Page() {
         }
 
         .btn-secondary {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 400;
           color: ${COLORS.orange};
           text-decoration: none;
@@ -309,23 +289,12 @@ export default function Page() {
             radial-gradient(ellipse 40% 40% at 30% 80%, rgba(184,97,26,0.06) 0%, transparent 55%);
         }
 
-        /* SVG silhouettes */
-        .silhouette-group {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
         .hero-svg {
           width: 80%;
           max-width: 420px;
           opacity: 0.9;
         }
 
-        /* Floating botanical elements */
         .leaf-1, .leaf-2, .leaf-3 {
           position: absolute;
           opacity: 0.18;
@@ -336,39 +305,63 @@ export default function Page() {
         .leaf-2 { bottom: 12%; left: 6%; font-size: 60px; transform: rotate(20deg); }
         .leaf-3 { top: 55%; right: 4%; font-size: 40px; transform: rotate(-30deg); }
 
-        /* ── SECTION INTRO ── */
-        .section-intro {
-          padding: 100px 64px;
-          background: ${COLORS.cream};
-          display: grid;
-          grid-template-columns: 1fr 2px 1fr;
-          gap: 64px;
-          align-items: center;
-          max-width: 1200px;
-          margin: 0 auto;
+        /* ── RDV SECTION (prominent, second on page) ── */
+        .rdv-section {
+          background: ${COLORS.greenPrimary};
+          padding: 110px 64px;
+          text-align: center;
         }
 
-        .intro-divider {
-          background: rgba(74,92,42,0.15);
-          height: 120px;
-          align-self: center;
+        .rdv-section .section-tag {
+          font-size: 12px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: ${COLORS.gold};
+          display: block;
+          margin-bottom: 20px;
         }
 
-        .intro-block h2 {
+        .rdv-section h2 {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 36px;
+          font-size: clamp(46px, 5.5vw, 70px);
           font-weight: 300;
-          color: ${COLORS.greenDark};
-          margin-bottom: 16px;
-          line-height: 1.25;
+          color: ${COLORS.cream};
+          margin-bottom: 20px;
+          line-height: 1.15;
         }
 
-        .intro-block p {
-          font-size: 14px;
+        .rdv-section h2 em { font-style: italic; color: ${COLORS.gold}; }
+
+        .rdv-section > p {
+          font-size: 17px;
           font-weight: 300;
-          line-height: 1.8;
-          color: ${COLORS.greenPrimary};
-          opacity: 0.85;
+          color: rgba(240,235,204,0.72);
+          margin-bottom: 44px;
+          max-width: 480px;
+          margin-left: auto;
+          margin-right: auto;
+          line-height: 1.7;
+        }
+
+        .btn-rdv {
+          padding: 18px 48px;
+          background: ${COLORS.cream};
+          border: none;
+          border-radius: 100px;
+          font-family: 'Jost', sans-serif;
+          font-size: 15px;
+          font-weight: 500;
+          letter-spacing: 0.06em;
+          color: ${COLORS.greenDark};
+          cursor: pointer;
+          text-decoration: none;
+          transition: background 0.2s, transform 0.15s;
+          display: inline-block;
+        }
+
+        .btn-rdv:hover {
+          background: ${COLORS.gold};
+          transform: translateY(-2px);
         }
 
         /* ── MEDITATION TYPES ── */
@@ -383,7 +376,7 @@ export default function Page() {
         }
 
         .section-header .tag {
-          font-size: 11px;
+          font-size: 12px;
           letter-spacing: 0.2em;
           text-transform: uppercase;
           color: ${COLORS.gold};
@@ -393,7 +386,7 @@ export default function Page() {
 
         .section-header h2 {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 42px;
+          font-size: 44px;
           font-weight: 300;
           color: ${COLORS.cream};
           line-height: 1.2;
@@ -428,14 +421,14 @@ export default function Page() {
 
         .card-med h3 {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 400;
           color: ${COLORS.cream};
           margin-bottom: 10px;
         }
 
         .card-med p {
-          font-size: 13px;
+          font-size: 15px;
           font-weight: 300;
           line-height: 1.7;
           color: rgba(240,235,204,0.6);
@@ -455,7 +448,7 @@ export default function Page() {
         .audio-text { flex: 1; }
 
         .audio-text .tag {
-          font-size: 11px;
+          font-size: 12px;
           letter-spacing: 0.2em;
           text-transform: uppercase;
           color: ${COLORS.orangeLight};
@@ -465,7 +458,7 @@ export default function Page() {
 
         .audio-text h2 {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 40px;
+          font-size: 42px;
           font-weight: 300;
           color: ${COLORS.greenDark};
           line-height: 1.2;
@@ -473,7 +466,7 @@ export default function Page() {
         }
 
         .audio-text p {
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 300;
           line-height: 1.8;
           color: ${COLORS.greenPrimary};
@@ -520,7 +513,7 @@ export default function Page() {
         .track-info { flex: 1; }
 
         .track-info .name {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 400;
           color: ${COLORS.cream};
           display: block;
@@ -528,7 +521,7 @@ export default function Page() {
         }
 
         .track-info .duration {
-          font-size: 11px;
+          font-size: 12px;
           color: rgba(240,235,204,0.4);
         }
 
@@ -543,29 +536,6 @@ export default function Page() {
           height: 100%;
           background: ${COLORS.orangeLight};
           border-radius: 1px;
-        }
-
-        /* ── RDV BANNER ── */
-        .rdv-banner {
-          background: ${COLORS.greenPrimary};
-          padding: 80px 64px;
-          text-align: center;
-        }
-
-        .rdv-banner h2 {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 44px;
-          font-weight: 300;
-          color: ${COLORS.cream};
-          margin-bottom: 12px;
-          line-height: 1.2;
-        }
-
-        .rdv-banner p {
-          font-size: 15px;
-          font-weight: 300;
-          color: rgba(240,235,204,0.7);
-          margin-bottom: 36px;
         }
 
         /* ── FOOTER ── */
@@ -585,7 +555,7 @@ export default function Page() {
         }
 
         footer p {
-          font-size: 12px;
+          font-size: 13px;
           color: rgba(240,235,204,0.3);
           letter-spacing: 0.05em;
         }
@@ -594,22 +564,16 @@ export default function Page() {
         @media (max-width: 900px) {
           .navbar { padding: 0 24px; }
           .nav-links { display: none; }
-          .btn-login { display: none; }
           .hamburger { display: flex; }
 
           .hero { grid-template-columns: 1fr; min-height: auto; }
           .hero-left { padding: 60px 28px; }
           .hero-right { min-height: 40vh; }
 
-          .section-intro {
-            grid-template-columns: 1fr;
-            padding: 64px 28px;
-          }
-          .intro-divider { display: none; }
+          .rdv-section { padding: 72px 28px; }
 
           .section-meditation { padding: 64px 28px; }
           .section-audio { flex-direction: column; padding: 64px 28px; }
-          .rdv-banner { padding: 64px 28px; }
           footer { flex-direction: column; gap: 16px; text-align: center; padding: 40px 28px; }
         }
       `}</style>
@@ -624,21 +588,18 @@ export default function Page() {
         <ul className="nav-links">
           <li><a href="#meditation">Méditation</a></li>
           <li><a href="#audio">Audio</a></li>
-          <li><a href="#rdv">Praticiens</a></li>
+          <li><a href="#rdv">Rendez-vous</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <a href="/login" className="btn-login">Connexion</a>
-          <div
-            className="hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span />
-            <span />
-            <span />
-          </div>
+        <div
+          className="hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span />
+          <span />
+          <span />
         </div>
       </nav>
 
@@ -651,20 +612,17 @@ export default function Page() {
           padding: "20px 28px",
           display: "flex", flexDirection: "column", gap: 20,
         }}>
-          {["Méditation#meditation", "Audio#audio", "Praticiens#rdv", "Contact#contact"].map((item) => {
+          {["Méditation#meditation", "Audio#audio", "Rendez-vous#rdv", "Contact#contact"].map((item) => {
             const [label, hash] = item.split("#");
             return (
               <a key={label} href={`#${hash}`}
                 onClick={() => setMenuOpen(false)}
-                style={{ fontSize: 15, color: COLORS.greenPrimary, textDecoration: "none" }}
+                style={{ fontSize: 16, color: COLORS.greenPrimary, textDecoration: "none" }}
               >
                 {label}
               </a>
             );
           })}
-          <a href="/login" style={{ fontSize: 15, color: COLORS.orange, textDecoration: "none" }}>
-            Connexion
-          </a>
         </div>
       )}
 
@@ -713,123 +671,58 @@ export default function Page() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Background circle */}
             <circle cx="200" cy="250" r="160" fill={`${COLORS.greenMid}18`} />
-
-            {/* Lotus / mandala decorative */}
             <circle cx="200" cy="250" r="100" stroke={`${COLORS.greenMid}30`} strokeWidth="1" />
             <circle cx="200" cy="250" r="70" stroke={`${COLORS.gold}40`} strokeWidth="0.8" />
 
-            {/* Sitting silhouette - left figure */}
             <g transform="translate(100, 160)">
-              {/* Head */}
               <circle cx="42" cy="20" r="18" fill={COLORS.greenPrimary} />
-              {/* Body */}
-              <path
-                d="M20 45 Q42 38 64 45 Q72 80 64 110 Q42 118 20 110 Q12 80 20 45Z"
-                fill={COLORS.greenPrimary}
-              />
-              {/* Left arm in lap */}
-              <path
-                d="M20 70 Q8 85 14 105 Q22 110 30 100 Q26 88 28 72Z"
-                fill={COLORS.greenMid}
-              />
-              {/* Right arm in lap */}
-              <path
-                d="M64 70 Q76 85 70 105 Q62 110 54 100 Q58 88 56 72Z"
-                fill={COLORS.greenMid}
-              />
-              {/* Crossed legs */}
-              <path
-                d="M18 110 Q10 130 20 148 Q35 155 50 148 Q42 130 42 118Z"
-                fill={COLORS.greenPrimary}
-              />
-              <path
-                d="M66 110 Q74 130 64 148 Q49 155 34 148 Q42 130 42 118Z"
-                fill={COLORS.greenMid}
-              />
+              <path d="M20 45 Q42 38 64 45 Q72 80 64 110 Q42 118 20 110 Q12 80 20 45Z" fill={COLORS.greenPrimary} />
+              <path d="M20 70 Q8 85 14 105 Q22 110 30 100 Q26 88 28 72Z" fill={COLORS.greenMid} />
+              <path d="M64 70 Q76 85 70 105 Q62 110 54 100 Q58 88 56 72Z" fill={COLORS.greenMid} />
+              <path d="M18 110 Q10 130 20 148 Q35 155 50 148 Q42 130 42 118Z" fill={COLORS.greenPrimary} />
+              <path d="M66 110 Q74 130 64 148 Q49 155 34 148 Q42 130 42 118Z" fill={COLORS.greenMid} />
             </g>
 
-            {/* Sitting silhouette - right figure (slightly larger, offset) */}
             <g transform="translate(220, 180)">
-              {/* Head */}
               <circle cx="42" cy="18" r="15" fill={COLORS.greenDark} />
-              {/* Body */}
-              <path
-                d="M24 40 Q42 34 60 40 Q67 70 60 96 Q42 103 24 96 Q17 70 24 40Z"
-                fill={COLORS.greenDark}
-              />
-              {/* Arms */}
-              <path
-                d="M24 62 Q13 74 18 92 Q25 97 31 88 Q28 78 29 64Z"
-                fill={COLORS.greenPrimary}
-              />
-              <path
-                d="M60 62 Q71 74 66 92 Q59 97 53 88 Q56 78 55 64Z"
-                fill={COLORS.greenPrimary}
-              />
-              {/* Legs */}
-              <path
-                d="M22 96 Q14 114 22 130 Q35 136 48 130 Q42 114 42 103Z"
-                fill={COLORS.greenDark}
-              />
-              <path
-                d="M62 96 Q70 114 62 130 Q49 136 36 130 Q42 114 42 103Z"
-                fill={COLORS.greenPrimary}
-              />
+              <path d="M24 40 Q42 34 60 40 Q67 70 60 96 Q42 103 24 96 Q17 70 24 40Z" fill={COLORS.greenDark} />
+              <path d="M24 62 Q13 74 18 92 Q25 97 31 88 Q28 78 29 64Z" fill={COLORS.greenPrimary} />
+              <path d="M60 62 Q71 74 66 92 Q59 97 53 88 Q56 78 55 64Z" fill={COLORS.greenPrimary} />
+              <path d="M22 96 Q14 114 22 130 Q35 136 48 130 Q42 114 42 103Z" fill={COLORS.greenDark} />
+              <path d="M62 96 Q70 114 62 130 Q49 136 36 130 Q42 114 42 103Z" fill={COLORS.greenPrimary} />
             </g>
 
-            {/* Decorative botanical lines */}
             <path
               d="M40 400 Q80 350 120 380 Q160 410 200 360 Q240 310 280 340 Q320 370 360 320"
-              stroke={`${COLORS.greenMid}50`}
-              strokeWidth="1.5"
-              fill="none"
-              strokeLinecap="round"
+              stroke={`${COLORS.greenMid}50`} strokeWidth="1.5" fill="none" strokeLinecap="round"
             />
             <path
               d="M30 420 Q90 380 150 400 Q200 420 260 380 Q310 345 370 360"
-              stroke={`${COLORS.gold}60`}
-              strokeWidth="1"
-              fill="none"
-              strokeLinecap="round"
+              stroke={`${COLORS.gold}60`} strokeWidth="1" fill="none" strokeLinecap="round"
             />
 
-            {/* Small floating dots */}
-            {[
-              [80, 80], [320, 100], [60, 300], [340, 280], [190, 60],
-            ].map(([cx, cy], i) => (
+            {[[80, 80], [320, 100], [60, 300], [340, 280], [190, 60]].map(([cx, cy], i) => (
               <circle key={i} cx={cx} cy={cy} r="3" fill={COLORS.gold} opacity="0.4" />
             ))}
           </svg>
         </div>
       </section>
 
-      {/* ── INTRO ── */}
-      <section id="about">
-        <div className="section-intro">
-          <div className="intro-block">
-            <h2>Un espace de calme, rien que pour vous</h2>
-            <p>
-              Nous croyons que chacun mérite un moment de pause. Notre approche douce et
-              bienveillante vous accompagne, à votre rythme, vers plus de sérénité au quotidien.
-            </p>
-          </div>
-          <div className="intro-divider" />
-          <div className="intro-block">
-            <h2>Des praticiens à votre écoute</h2>
-            <p>
-              Nos guides certifiés vous proposent des séances personnalisées en présentiel ou
-              en ligne, adaptées à vos besoins et à votre disponibilité.
-            </p>
-          </div>
-        </div>
+      {/* ── RDV SECTION — priorité 1 ── */}
+      <section id="rdv" className="rdv-section">
+        <span className="section-tag">Séance individuelle</span>
+        <h2>Réservez votre <em>séance Zoom</em></h2>
+        <p>Un accompagnement personnalisé avec un praticien certifié — en ligne, à votre rythme. La première séance est offerte.</p>
+        <a href="/rdv" className="btn-rdv">
+          Choisir un créneau →
+        </a>
       </section>
 
-      {/* ── MEDITATION TYPES ── */}
+      {/* ── MEDITATION TYPES — ressources solo ── */}
       <section id="meditation" className="section-meditation">
         <div className="section-header">
-          <span className="tag">Nos pratiques</span>
+          <span className="tag">Ressources solo</span>
           <h2>Les types de méditation</h2>
         </div>
         <div className="cards-grid">
@@ -847,15 +740,14 @@ export default function Page() {
       <section id="audio" style={{ background: COLORS.creamDark }}>
         <div className="section-audio">
           <div className="audio-text">
-            <span className="tag">Ressources audio</span>
+            <span className="tag">Guidances audio</span>
             <h2>
-              Des guidances
+              Des séances
               <br />
               <em style={{ fontStyle: "italic", color: COLORS.greenMid }}>à portée d'oreille</em>
             </h2>
             <p>
-              Notre bibliothèque audio propose des méditations guidées, des exercices de
-              respiration et des ambiances sonores pour chaque moment de votre journée.
+              Méditations guidées, exercices de respiration et ambiances sonores — disponibles à tout moment.
             </p>
             <a href="/audio" className="btn-primary">
               Accéder à la bibliothèque
@@ -881,15 +773,6 @@ export default function Page() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* ── RDV BANNER ── */}
-      <section id="rdv" className="rdv-banner">
-        <h2>Réservez votre séance</h2>
-        <p>Un accompagnement doux, à votre rythme, en ligne ou en présentiel.</p>
-        <a href="/coaches" className="btn-primary" style={{ display: "inline-block" }}>
-          Voir les praticiens disponibles
-        </a>
       </section>
 
       {/* ── FOOTER ── */}
