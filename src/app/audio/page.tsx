@@ -614,11 +614,8 @@ export default function AudioPage() {
           <li><Link href="/#rdv">Praticiens</Link></li>
           <li><Link href="/#contact">Contact</Link></li>
         </ul>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <Link href="/login" className="btn-login">Connexion</Link>
-          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-            <span /><span /><span />
-          </div>
+        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+          <span /><span /><span />
         </div>
       </nav>
 
@@ -634,10 +631,6 @@ export default function AudioPage() {
               {label}
             </Link>
           ))}
-          <Link href="/login" onClick={() => setMenuOpen(false)}
-            style={{ fontSize: 15, color: COLORS.orange, textDecoration: "none" }}>
-            Connexion
-          </Link>
         </div>
       )}
 
