@@ -270,7 +270,7 @@ export default function Page() {
           width: 40px;
         }
 
-        /* Hero right – botanical illustration area */
+        /* Hero right – photo area */
         .hero-right {
           background: ${COLORS.creamDark};
           position: relative;
@@ -289,10 +289,52 @@ export default function Page() {
             radial-gradient(ellipse 40% 40% at 30% 80%, rgba(184,97,26,0.06) 0%, transparent 55%);
         }
 
-        .hero-svg {
-          width: 80%;
-          max-width: 420px;
-          opacity: 0.9;
+        /* Photo container */
+        .hero-photo-wrapper {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Cercle flou décoratif derrière la photo */
+        .hero-photo-glow {
+          position: absolute;
+          width: 440px;
+          height: 440px;
+          border-radius: 50%;
+          background: rgba(107,122,64,0.15);
+          filter: blur(24px);
+        }
+
+        /* Anneau décoratif autour de la photo */
+        .hero-photo-ring {
+          position: absolute;
+          width: 420px;
+          height: 420px;
+          border-radius: 50%;
+          border: 1px solid rgba(107,122,64,0.25);
+        }
+
+        .hero-photo-ring-2 {
+          position: absolute;
+          width: 370px;
+          height: 370px;
+          border-radius: 50%;
+          border: 0.8px solid rgba(212,200,138,0.3);
+        }
+
+        /* La photo elle-même */
+        .hero-photo {
+          position: relative;
+          width: 320px;
+          height: 320px;
+          border-radius: 50%;
+          object-fit: cover;
+          object-position: center;
+          z-index: 2;
+          box-shadow: 0 20px 60px rgba(30,45,18,0.2);
         }
 
         .leaf-1, .leaf-2, .leaf-3 {
@@ -570,6 +612,11 @@ export default function Page() {
           .hero-left { padding: 60px 28px; }
           .hero-right { min-height: 40vh; }
 
+          .hero-photo { width: 220px; height: 220px; }
+          .hero-photo-glow { width: 280px; height: 280px; }
+          .hero-photo-ring { width: 280px; height: 280px; }
+          .hero-photo-ring-2 { width: 250px; height: 250px; }
+
           .rdv-section { padding: 72px 28px; }
 
           .section-meditation { padding: 64px 28px; }
@@ -589,6 +636,8 @@ export default function Page() {
           <li><a href="#meditation">Méditation</a></li>
           <li><a href="#audio">Audio</a></li>
           <li><a href="#rdv">Rendez-vous</a></li>
+          <li><a href="/about">En savoir plus</a></li>
+          <li><a href="/who">Qui je suis</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -612,10 +661,11 @@ export default function Page() {
           padding: "20px 28px",
           display: "flex", flexDirection: "column", gap: 20,
         }}>
-          {["Méditation#meditation", "Audio#audio", "Rendez-vous#rdv", "Contact#contact"].map((item) => {
+          {["Méditation#meditation", "Audio#audio", "Rendez-vous#rdv", "En savoir plus#about", "Qui je suis#who", "Contact#contact"].map((item) => {
             const [label, hash] = item.split("#");
+            const href = label === "En savoir plus" ? "/about" : label === "Qui je suis" ? "/who" : `#${hash}`;
             return (
-              <a key={label} href={`#${hash}`}
+              <a key={label} href={href}
                 onClick={() => setMenuOpen(false)}
                 style={{ fontSize: 16, color: COLORS.greenPrimary, textDecoration: "none" }}
               >
@@ -659,53 +709,25 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Right: botanical / silhouette illustration */}
+        {/* Right: photo */}
         <div className="hero-right">
           <span className="leaf-1">🌿</span>
           <span className="leaf-2">🍃</span>
           <span className="leaf-3">✦</span>
 
-          <svg
-            className="hero-svg"
-            viewBox="0 0 400 500"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="200" cy="250" r="160" fill={`${COLORS.greenMid}18`} />
-            <circle cx="200" cy="250" r="100" stroke={`${COLORS.greenMid}30`} strokeWidth="1" />
-            <circle cx="200" cy="250" r="70" stroke={`${COLORS.gold}40`} strokeWidth="0.8" />
+          <div className="hero-photo-wrapper">
+            {/* Cercles décoratifs */}
+            <div className="hero-photo-glow" />
+            <div className="hero-photo-ring" />
+            <div className="hero-photo-ring-2" />
 
-            <g transform="translate(100, 160)">
-              <circle cx="42" cy="20" r="18" fill={COLORS.greenPrimary} />
-              <path d="M20 45 Q42 38 64 45 Q72 80 64 110 Q42 118 20 110 Q12 80 20 45Z" fill={COLORS.greenPrimary} />
-              <path d="M20 70 Q8 85 14 105 Q22 110 30 100 Q26 88 28 72Z" fill={COLORS.greenMid} />
-              <path d="M64 70 Q76 85 70 105 Q62 110 54 100 Q58 88 56 72Z" fill={COLORS.greenMid} />
-              <path d="M18 110 Q10 130 20 148 Q35 155 50 148 Q42 130 42 118Z" fill={COLORS.greenPrimary} />
-              <path d="M66 110 Q74 130 64 148 Q49 155 34 148 Q42 130 42 118Z" fill={COLORS.greenMid} />
-            </g>
-
-            <g transform="translate(220, 180)">
-              <circle cx="42" cy="18" r="15" fill={COLORS.greenDark} />
-              <path d="M24 40 Q42 34 60 40 Q67 70 60 96 Q42 103 24 96 Q17 70 24 40Z" fill={COLORS.greenDark} />
-              <path d="M24 62 Q13 74 18 92 Q25 97 31 88 Q28 78 29 64Z" fill={COLORS.greenPrimary} />
-              <path d="M60 62 Q71 74 66 92 Q59 97 53 88 Q56 78 55 64Z" fill={COLORS.greenPrimary} />
-              <path d="M22 96 Q14 114 22 130 Q35 136 48 130 Q42 114 42 103Z" fill={COLORS.greenDark} />
-              <path d="M62 96 Q70 114 62 130 Q49 136 36 130 Q42 114 42 103Z" fill={COLORS.greenPrimary} />
-            </g>
-
-            <path
-              d="M40 400 Q80 350 120 380 Q160 410 200 360 Q240 310 280 340 Q320 370 360 320"
-              stroke={`${COLORS.greenMid}50`} strokeWidth="1.5" fill="none" strokeLinecap="round"
+            {/* Ta photo ici — place ton image dans public/images/hero.jpg */}
+            <img
+              src="/images/hero.jpg"
+              alt="Méditation & Bien-être"
+              className="hero-photo"
             />
-            <path
-              d="M30 420 Q90 380 150 400 Q200 420 260 380 Q310 345 370 360"
-              stroke={`${COLORS.gold}60`} strokeWidth="1" fill="none" strokeLinecap="round"
-            />
-
-            {[[80, 80], [320, 100], [60, 300], [340, 280], [190, 60]].map(([cx, cy], i) => (
-              <circle key={i} cx={cx} cy={cy} r="3" fill={COLORS.gold} opacity="0.4" />
-            ))}
-          </svg>
+          </div>
         </div>
       </section>
 
